@@ -13,7 +13,17 @@ class HomePage extends StatelessWidget {
       appBar: AppBar(
         title: Text("MyFirstApp"),
       ),
-      body: Container(child: Center(child: Text("Hello!"),),),
+      body: Container(
+        padding: const EdgeInsets.all(8),
+        width: 200,
+        height: 200,
+        alignment: Alignment.bottomCenter,
+        decoration: BoxDecoration(
+          color: Colors.lime,
+          borderRadius: BorderRadius.circular(20),
+        ),
+        child: Text("Hello!"),
+      ),
     );
   }
 }
