@@ -14,16 +14,32 @@ class HomePage extends StatelessWidget {
         title: Text("MyFirstApp"),
       ),
       body: Center(
-        child: Container(
-            child: Text(
-          "Hey",
-          style: TextStyle(
-            color: Colors.grey,
-            fontSize: 20,
-            fontWeight: FontWeight.bold,
+          child: Padding(
+        padding: const EdgeInsets.all(20),
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              Image.asset("assets/p1.jpeg"),
+              SizedBox(
+                height: 20,
+              ),
+              Text("My Name"),
+              SizedBox(
+                height: 20,
+              ),
+              Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: TextField(
+                  decoration: InputDecoration(
+                      border: OutlineInputBorder(),
+                      hintText: "Enter your name",
+                      labelText: "Nmae"),
+                ),
+              )
+            ],
           ),
-        )),
-      ),
+        ),
+      )),
       drawer: Drawer(
         child: ListView(
           padding: const EdgeInsets.all(0),
