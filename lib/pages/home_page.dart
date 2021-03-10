@@ -1,6 +1,9 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 import 'package:myfirst/drawer.dart';
-import 'package:myfirst/name_card.dart';
+import 'dart:convert';
 
 class HomePage extends StatefulWidget {
   @override
@@ -8,8 +11,30 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  var name = "My Name";
-  TextEditingController _nameController = TextEditingController();
+  Uri url = Uri(
+    scheme: "https",
+    host: "restcountries.eu",
+    path: "/rest/v2/name/India",
+    query: "fullText=true",
+  );
+  var data;
+
+  @override
+  void initState() {
+    super.initState();
+    fetchData();
+  }
+
+  fetchData() async {
+    var res = await http.get(url);
+    data = jsonDecode(res.body);
+    setState(() {});
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -20,16 +45,45 @@ class _HomePageState extends State<HomePage> {
       ),
       body: Center(
           child: Padding(
-        padding: const EdgeInsets.all(20),
-        child: SingleChildScrollView(
-          child: NameCard(name: name, nameController: _nameController),
-        ),
-      )),
+              padding: const EdgeInsets.all(20),
+              child: data != null
+                  ? Card(
+                      child: Padding(
+                        padding: const EdgeInsets.all(10.0),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Row(
+                              children: [
+                                Text(
+                                  data[0]['name'],
+                                  style: TextStyle(
+                                      fontSize: 32,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                              ],
+                            ),
+                            Row(
+                              children: [
+                                Text(data[0]['region'],
+                                    style: TextStyle(
+                                      fontSize: 18,
+                                      color: Colors.blueGrey,
+                                    )),
+                              ],
+                            )
+                          ],
+                        ),
+                      ),
+                    )
+                  : Center(
+                      child: CircularProgressIndicator(),
+                    ))),
       drawer: MyDrawer(),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          name = _nameController.text;
-          setState(() {});
+          // name = _nameController.text;
+          // setState(() {});
         },
         child: Icon(Icons.done),
       ),
